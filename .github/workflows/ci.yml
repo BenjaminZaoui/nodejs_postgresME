@@ -38,14 +38,22 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            # Si le projet n'existe pas, le cloner
+            if [ ! -d "${{ secrets.PROJECT_PATH }}" ]; then
+              git clone https://github.com/${{ github.repository }}.git ${{ secrets.PROJECT_PATH }}
+            fi
+            
             # Aller dans le répertoire du projet
             cd ${{ secrets.PROJECT_PATH }}
+            
+            # Mettre à jour le code
+            git pull origin main
             
             # Pull de la nouvelle image
             docker pull ${{ secrets.DOCKER_USERNAME }}/nodejs_postgres:latest
             
             # Arrêter les anciens conteneurs
-            docker-compose down
+            docker-compose down || true
             
             # Démarrer les nouveaux conteneurs
             docker-compose up -d

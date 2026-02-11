@@ -38,8 +38,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            # Si le projet n'existe pas, le cloner
-            if [ ! -d "${{ secrets.PROJECT_PATH }}" ]; then
+            # Si le projet n'existe pas ou n'est pas un repo git, le cloner
+            if [ ! -d "${{ secrets.PROJECT_PATH }}/.git" ]; then
+              rm -rf ${{ secrets.PROJECT_PATH }}
               git clone https://github.com/${{ github.repository }}.git ${{ secrets.PROJECT_PATH }}
             fi
             

@@ -7,10 +7,10 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest 
 
     steps:
-      # 1. Checkout du code
+      # 1. Checkout du codesource
       - name: Checkout code
         uses: actions/checkout@v4
 

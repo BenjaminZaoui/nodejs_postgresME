@@ -21,15 +21,12 @@ services:
       - db
     ports:
       - "3754:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
     environment:
-      - DATABASE_URL=postgres://postgres:mysecretpassword@db:5234/mydb
+      - DATABASE_URL=postgres://postgres:mysecretpassword@db:5432/mydb
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
     restart: unless-stopped
-    command: ["node", "server.js"]
+    command: ["npm", "run","start"]
 
 
 volumes:

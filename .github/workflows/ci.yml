@@ -25,8 +25,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/nodejs_postgres:latest
-            ${{ secrets.DOCKER_USERNAME }}/nodejs_postgres:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/nodejs_postgres_bz:latest
+            ${{ secrets.DOCKER_USERNAME }}/nodejs_postgres_bz:${{ github.sha }}
 
       - name: Copy files to Server
         uses: appleboy/scp-action@v0.1.7
@@ -51,7 +51,7 @@ jobs:
 
             export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
 
-            docker pull ${{ secrets.DOCKER_USERNAME }}/nodejs_postgres:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/nodejs_postgres_bz:latest
 
             docker compose down
             docker compose up -d

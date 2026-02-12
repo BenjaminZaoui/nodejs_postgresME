@@ -15,7 +15,7 @@ services:
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
 
   node:
-    image: ${DOCKER_USERNAME}/nodejs_postgres:latest
+    image: ${DOCKER_USERNAME}/nodejs_postgres_bz:latest
     container_name: nodejs_app_bz
     depends_on:
       - db

@@ -34,45 +34,15 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            mkdir -p ${{ secrets.PROJECT_PATH }}
-            cd ${{ secrets.PROJECT_PATH }}
-            
-            cat > docker-compose.yml << 'EOF'
-            version: '3'
-            services:
-              db:
-                image: postgres:13
-                container_name: postgres_db_node
-                environment:
-                  POSTGRES_USER: postgres
-                  POSTGRES_PASSWORD: mysecretpassword
-                  POSTGRES_DB: mydb
-                ports:
-                  - "5234:5432"
-                volumes:
-                  - db_data:/var/lib/postgresql/data
-                restart: unless-stopped
-
-              node:
-                image: DOCKER_IMAGE_PLACEHOLDER
-                container_name: nodejs_app
-                depends_on:
-                  - db
-                ports:
-                  - "3754:3000"
-                environment:
-                  - DATABASE_URL=postgres://postgres:mysecretpassword@db:5432/mydb
-                  - NODE_ENV=production
-                restart: unless-stopped
-
-            volumes:
-              db_data:
-            EOF
-            
-            sed -i "s|DOCKER_IMAGE_PLACEHOLDER|${{ secrets.DOCKER_USERNAME }}/nodejs_postgres:latest|g" docker-compose.yml
-            
             docker pull ${{ secrets.DOCKER_USERNAME }}/nodejs_postgres:latest
-            
-            docker-compose down || true
-            
-            docker-compose up -d
+
+            docker stop nodejs_app || true
+            docker rm nodejs_app || true
+
+            docker run -d \
+              --name nodejs_app \
+              -p 3754:3000 \
+              -e DATABASE_URL=postgres://postgres:mysecretpassword@db:5432/mydb \
+              -e NODE_ENV=production \
+              --restart unless-stopped \
+              ${{ secrets.DOCKER_USERNAME }}/nodejs_postgres:latest

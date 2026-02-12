@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: "docker-compose.yml,init-db.sql"
+          source: "docker-compose.yml,Dockerfile,init-db.sql"
           target: "~/app"
 
           # deployment

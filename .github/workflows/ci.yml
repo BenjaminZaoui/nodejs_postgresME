@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: "docker-compose.prod.yml,init-db.sql"
+          source: "docker-compose.yml,init-db.sql"
           target: "~/app"
 
           # deployment
@@ -56,4 +56,4 @@ jobs:
             docker compose down
             docker compose up -d
 
-            docker image prune 
+            docker image prune

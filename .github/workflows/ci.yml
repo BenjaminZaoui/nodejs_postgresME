@@ -39,6 +39,4 @@ jobs:
             docker stop nodejs_app || true
             docker rm nodejs_app || true
             
-            docker run -d \
-              --name nodejs_app \
-              
+            docker run -d 

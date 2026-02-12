@@ -39,4 +39,10 @@ jobs:
             docker stop nodejs_app || true
             docker rm nodejs_app || true
             
-            docker run -d 
+            docker run -d \
+              --name nodejs_app \
+              -p 3754:3000 \
+              -e DATABASE_URL=postgres://postgres:mysecretpassword@db:5432/mydb \
+              -e NODE_ENV=production \
+              --restart unless-stopped \
+              ${{ secrets.DOCKER_USERNAME }}/nodejs_postgres:latest
